@@ -52,6 +52,9 @@ fn main() {
     terminal::enable_raw_mode().unwrap();
 
     loop {
+        print!("\x1b[?25l");
+        std::io::Write::flush(&mut std::io::stdout()).unwrap();
+
         if event::poll(std::time::Duration::from_millis(100)).unwrap() {
             if let event::Event::Key(KeyEvent { code, .. }) = event::read().unwrap() {
                 match code {
@@ -94,4 +97,6 @@ fn main() {
     // ターミナルのモードを戻す
     terminal::disable_raw_mode().unwrap();
     println!("Finish!");
+    print!("\x1b[?25h");
+    std::io::Write::flush(&mut std::io::stdout()).unwrap();
 }
